@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/adikrnwn171/database"
-	"github.com/adikrnwn171/helpers"
-	"github.com/adikrnwn171/models"
+	"github.com/Final-Task-Rakamin/final-task-pbi-rakamin-fullstack-WiraAdiKurniawan/database"
+	"github.com/Final-Task-Rakamin/final-task-pbi-rakamin-fullstack-WiraAdiKurniawan/helpers"
+	"github.com/Final-Task-Rakamin/final-task-pbi-rakamin-fullstack-WiraAdiKurniawan/models"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 )

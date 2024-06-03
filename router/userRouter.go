@@ -1,7 +1,8 @@
 package router
 
 import (
-	"github.com/adikrnwn171/controllers"
+	"github.com/Final-Task-Rakamin/final-task-pbi-rakamin-fullstack-WiraAdiKurniawan/controllers"
+	"github.com/Final-Task-Rakamin/final-task-pbi-rakamin-fullstack-WiraAdiKurniawan/middlewares"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,7 +13,7 @@ func UserRoutes(r *gin.Engine) {
 		userGroup.POST("/login", controllers.Login)
 		userGroup.PUT("/:id", controllers.UpdateUser)
 		userGroup.DELETE("/:id", controllers.DeleteUser)
-		userGroup.GET("/active", controllers.GetUserLogin)
+		userGroup.GET("/active", middlewares.Auth, controllers.GetUserLogin)
 		userGroup.GET("/logout", controllers.Logout)
 
 	}

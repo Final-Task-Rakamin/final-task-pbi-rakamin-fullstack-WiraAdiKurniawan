@@ -1,8 +1,8 @@
 package router
 
 import (
-	"github.com/adikrnwn171/controllers"
-	"github.com/adikrnwn171/middlewares"
+	"github.com/Final-Task-Rakamin/final-task-pbi-rakamin-fullstack-WiraAdiKurniawan/controllers"
+	"github.com/Final-Task-Rakamin/final-task-pbi-rakamin-fullstack-WiraAdiKurniawan/middlewares"
 	"github.com/gin-gonic/gin"
 )
 
