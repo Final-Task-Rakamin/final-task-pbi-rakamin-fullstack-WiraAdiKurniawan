@@ -3,8 +3,8 @@ package database
 import (
 	"fmt"
 
-	"github.com/adikrnwn171/helpers"
-	"github.com/adikrnwn171/models"
+	"github.com/Final-Task-Rakamin/final-task-pbi-rakamin-fullstack-WiraAdiKurniawan/helpers"
+	"github.com/Final-Task-Rakamin/final-task-pbi-rakamin-fullstack-WiraAdiKurniawan/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )

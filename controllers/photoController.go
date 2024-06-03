@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/adikrnwn171/database"
-	"github.com/adikrnwn171/models"
+	"github.com/Final-Task-Rakamin/final-task-pbi-rakamin-fullstack-WiraAdiKurniawan/database"
+	"github.com/Final-Task-Rakamin/final-task-pbi-rakamin-fullstack-WiraAdiKurniawan/models"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 )
@@ -20,7 +20,7 @@ func AddPhoto(c *gin.Context) {
 	userObj, ok := user.(models.User)
 	if !ok {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Failed to convert user to User model",
+			"message": "Failed to convert user to User model",
 		})
 		return
 	}
@@ -30,7 +30,7 @@ func AddPhoto(c *gin.Context) {
 
 	if err := c.ShouldBind(&body); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Failed to read request body",
+			"message": "Failed to read request body",
 		})
 		return
 	}
@@ -56,7 +56,7 @@ func AddPhoto(c *gin.Context) {
 
 	if result.Error != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Failed to create photo",
+			"message": "Failed to create photo",
 		})
 		return
 	}
@@ -84,7 +84,7 @@ func DeletePhoto(c *gin.Context) {
 	// Check photo ID
 	if result.RowsAffected == 0 {
 		c.JSON(http.StatusNotFound, gin.H{
-			"error": fmt.Sprintf("Photo with ID %s not found", photoID),
+			"message": fmt.Sprintf("Photo with ID %s not found", photoID),
 		})
 		return
 	}
@@ -96,7 +96,7 @@ func DeletePhoto(c *gin.Context) {
 	userObj, ok := user.(models.User)
 	if !ok {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Failed to convert user to User model",
+			"message": "Failed to convert user to User model",
 		})
 		return
 	}
@@ -105,7 +105,7 @@ func DeletePhoto(c *gin.Context) {
 	// Memeriksa apakah pengguna adalah pemilik foto yang ingin dihapus
 	if userID != userObj.ID {
 		c.JSON(http.StatusUnauthorized, gin.H{
-			"error": fmt.Sprintf("You don't have authorization to delete photo with ID %s", photoID),
+			"message": fmt.Sprintf("You don't have authorization to delete photo with ID %s", photoID),
 		})
 		return
 	}
@@ -130,7 +130,7 @@ func UpdatePhoto(c *gin.Context) {
 
 	if err := c.ShouldBind(&body); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Failed to read request body",
+			"message": "Failed to read request body",
 		})
 		return
 	}
@@ -143,7 +143,7 @@ func UpdatePhoto(c *gin.Context) {
 	// Check photo ID
 	if result.RowsAffected == 0 {
 		c.JSON(http.StatusNotFound, gin.H{
-			"error": fmt.Sprintf("Photo with ID %s not found", photoID),
+			"message": fmt.Sprintf("Photo with ID %s not found", photoID),
 		})
 		return
 	}
@@ -155,7 +155,7 @@ func UpdatePhoto(c *gin.Context) {
 	userObj, ok := user.(models.User)
 	if !ok {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Failed to convert user to User model",
+			"message": "Failed to convert user to User model",
 		})
 		return
 	}
@@ -163,7 +163,7 @@ func UpdatePhoto(c *gin.Context) {
 	// Memeriksa apakah pemilik foto adalah pengguna yang sedang login
 	if photo.UserID != userObj.ID {
 		c.JSON(http.StatusUnauthorized, gin.H{
-			"error": fmt.Sprintf("You don't have authorization to update photo with ID %s", photoID),
+			"message": fmt.Sprintf("You don't have authorization to update photo with ID %s", photoID),
 		})
 		return
 	}

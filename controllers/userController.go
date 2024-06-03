@@ -2,16 +2,14 @@ package controllers
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"time"
 
-	"github.com/adikrnwn171/database"
-	"github.com/adikrnwn171/helpers"
-	"github.com/adikrnwn171/models"
+	"github.com/Final-Task-Rakamin/final-task-pbi-rakamin-fullstack-WiraAdiKurniawan/database"
+	"github.com/Final-Task-Rakamin/final-task-pbi-rakamin-fullstack-WiraAdiKurniawan/helpers"
+	"github.com/Final-Task-Rakamin/final-task-pbi-rakamin-fullstack-WiraAdiKurniawan/models"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
-	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -46,7 +44,7 @@ func Register(c *gin.Context) {
 	}
 
 	// hash password
-	hash, err := bcrypt.GenerateFromPassword([]byte(body.Password), bcrypt.DefaultCost)
+	hash, err := helpers.HashPassword(body.Password)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -57,7 +55,6 @@ func Register(c *gin.Context) {
 
 	//  post data
 	user := models.User{Username: body.Username, Email: body.Email, Password: string(hash), CreatedAt: time.Now(), UpdatedAt: time.Now()}
-	log.Println(&user)
 	result := database.DB.Create(&user)
 
 	if result.Error != nil {
@@ -106,14 +103,8 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	// generate jwt token
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"sub": user.ID,
-		"exp": time.Now().Add(time.Hour * 24 * 30).Unix(),
-	})
-
-	// Sign and get the complete encoded token as a string using the secret
-	tokenString, err := token.SignedString([]byte(helpers.GetEnv("SECRET")))
+	// generate and signed jwt
+	tokenString, err := helpers.GenerateToken(uint64(user.ID))
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -184,7 +175,8 @@ func UpdateUser(c *gin.Context) {
 		return
 	}
 
-	hash, err := bcrypt.GenerateFromPassword([]byte(body.Password), bcrypt.DefaultCost)
+	// hash password
+	hash, err := helpers.HashPassword(body.Password)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -243,7 +235,7 @@ func PostsIndex(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{
-		"data": user,
+		"payload": user,
 	})
 }
 
@@ -252,6 +244,6 @@ func GetPhoto(c *gin.Context) {
 	database.DB.Find(&photo)
 
 	c.JSON(200, gin.H{
-		"data": photo,
+		"payload": photo,
 	})
 }
